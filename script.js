@@ -39,7 +39,7 @@ function displayBusTimes(monitoredStopVisits) {
     }
 
     busTimesElement.innerHTML = ''; // Clear existing content
-    busTimesElement.classList.add('w-full', 'md:w-3/4', 'lg:w-1/2', 'mx-auto', 'flex', 'flex-col', 'items-center', 'gap-4', 'p-4', 'bg-white', 'shadow', 'rounded');
+    busTimesElement.classList.add('w-full', 'md:w-3/4', 'lg:w-1/2', 'mx-auto', 'flex', 'flex-col', 'items-center', 'gap-4', 'p-6', 'bg-white', 'shadow', 'rounded');
 
     monitoredStopVisits.forEach(visit => {
         const journey = visit.MonitoredVehicleJourney;
@@ -52,10 +52,10 @@ function displayBusTimes(monitoredStopVisits) {
         const displayTimeFromNow = timeFromNow < 0 ? "Arrived" : `${timeFromNow} min`;
 
         const timeElement = document.createElement('div');
-        timeElement.classList.add('bus-time-entry', 'flex', 'justify-between', 'items-center', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-4', 'w-full');
+        timeElement.classList.add('bus-time-entry', 'flex', 'justify-between', 'items-center', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-5', 'w-full');
         timeElement.innerHTML = `
             <div class="line" style="min-width: 65px;">
-                <span class="font-bold text-3xl">${lineRef}</span>
+                <span class="font-bold text-4xl">${lineRef}</span>
             </div>
             <div class="destination" style="min-width: 135px;">
                 <span>${destination}</span>
@@ -64,7 +64,7 @@ function displayBusTimes(monitoredStopVisits) {
                 <span>${arrivalTimeDate.toLocaleTimeString()}</span>
             </div>
             <div class="time-from-now" style="min-width: 90px;">
-                <span class="text-xl font-bold">${displayTimeFromNow}</span>
+                <span class="text-2xl font-bold">${displayTimeFromNow}</span>
             </div>
         `;
         busTimesElement.appendChild(timeElement);
