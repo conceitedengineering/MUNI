@@ -11,7 +11,7 @@ function handleStopChange() {
 }
 
 function fetchBusTimes(stopId) {
-    const API_ENDPOINT = `http://api.511.org/transit/StopMonitoring?api_key=8ed0464e-6f76-440e-8038-6f300c697f7c&agency=SF&stopCode=${stopId}`;
+    const API_ENDPOINT = `https://api.511.org/transit/StopMonitoring?api_key=8ed0464e-6f76-440e-8038-6f300c697f7c&agency=SF&stopCode=${stopId}`;
     fetch(API_ENDPOINT)
         .then(response => {
             if (!response.ok) {
