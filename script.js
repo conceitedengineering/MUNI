@@ -39,7 +39,7 @@ function displayBusTimes(monitoredStopVisits) {
     }
 
     busTimesElement.innerHTML = ''; // Clear existing content
-    busTimesElement.classList.add('w-full', 'md:w-3/4', 'lg:w-1/2', 'mx-auto', 'flex', 'flex-col', 'items-center', 'gap-4', 'p-6', 'bg-white', 'shadow', 'rounded');
+    busTimesElement.classList.add('max-w-lg', 'mx-auto', 'flex', 'flex-col', 'items-center', 'gap-4', 'p-4', 'bg-white', 'shadow', 'rounded');
 
     monitoredStopVisits.forEach(visit => {
         const journey = visit.MonitoredVehicleJourney;
@@ -48,31 +48,30 @@ function displayBusTimes(monitoredStopVisits) {
         const expectedArrival = journey.MonitoredCall.ExpectedArrivalTime;
 
         const arrivalTimeDate = new Date(expectedArrival);
-        const timeFromNow = Math.round((arrivalTimeDate - new Date()) / 60000);
+        const currentTime = new Date();
+        const timeDifference = arrivalTimeDate.getTime() - currentTime.getTime();
+        const timeFromNow = Math.floor(timeDifference / 60000); // Convert to minutes
         const displayTimeFromNow = timeFromNow < 0 ? "Arrived" : `${timeFromNow} min`;
 
         const timeElement = document.createElement('div');
-        timeElement.classList.add('bus-time-entry', 'flex', 'justify-between', 'items-center', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-5', 'w-full');
+        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'md:flex-row', 'justify-between', 'items-center', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-4', 'w-full');
         timeElement.innerHTML = `
-            <div class="line" style="min-width: 65px;">
-                <span class="font-bold text-4xl">${lineRef}</span>
+            <div class="line text-sm md:text-lg mb-2 md:mb-0 flex-1">
+                <span class="font-bold">${lineRef}</span>
             </div>
-            <div class="destination" style="min-width: 135px;">
+            <div class="destination text-sm md:text-lg mb-2 md:mb-0 flex-2">
                 <span>${destination}</span>
             </div>
-            <div class="arrival-time" style="min-width: 115px;">
+            <div class="arrival-time text-sm md:text-lg mb-2 md:mb-0 flex-1">
                 <span>${arrivalTimeDate.toLocaleTimeString()}</span>
             </div>
-            <div class="time-from-now" style="min-width: 90px;">
-                <span class="text-2xl font-bold">${displayTimeFromNow}</span>
+            <div class="time-from-now text-xl md:text-2xl flex-1">
+                <span class="font-bold">${displayTimeFromNow}</span>
             </div>
         `;
         busTimesElement.appendChild(timeElement);
     });
 }
-
-
-
 
 // Refresh bus times every minute for the selected stop
 setInterval(() => {
