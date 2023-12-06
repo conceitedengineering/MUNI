@@ -56,22 +56,25 @@ function displayBusTimes(monitoredStopVisits) {
         const timeElement = document.createElement('div');
         timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'md:flex-row', 'justify-between', 'items-center', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-4', 'w-full');
         timeElement.innerHTML = `
-            <div class="line text-sm md:text-lg mb-2 md:mb-0 flex-1">
+            <div class="line text-2xl mb-2 md:mb-0 flex-1 md:flex-none md:w-1/4">
                 <span class="font-bold">${lineRef}</span>
             </div>
-            <div class="destination text-sm md:text-lg mb-2 md:mb-0 flex-2">
-                <span>${destination}</span>
+            <div class="details flex-1 flex flex-col md:flex-row md:items-center">
+                <div class="destination text-lg mb-2 md:mb-0 md:mr-4">
+                    <span>${destination}</span>
+                </div>
+                <div class="arrival-time text-lg mb-2 md:mb-0">
+                    <span>${arrivalTimeDate.toLocaleTimeString()}</span>
+                </div>
             </div>
-            <div class="arrival-time text-sm md:text-lg mb-2 md:mb-0 flex-1">
-                <span>${arrivalTimeDate.toLocaleTimeString()}</span>
-            </div>
-            <div class="time-from-now text-xl md:text-2xl flex-1">
+            <div class="time-from-now text-xl flex-1 md:flex-none md:w-1/4">
                 <span class="font-bold">${displayTimeFromNow}</span>
             </div>
         `;
         busTimesElement.appendChild(timeElement);
     });
 }
+
 
 // Refresh bus times every minute for the selected stop
 setInterval(() => {
