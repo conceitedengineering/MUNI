@@ -39,7 +39,6 @@ function displayBusTimes(monitoredStopVisits) {
     }
 
     busTimesElement.innerHTML = ''; // Clear existing content
-    busTimesElement.classList.add('max-w-lg', 'mx-auto', 'flex', 'flex-col', 'items-center', 'gap-4', 'p-4', 'bg-white', 'shadow', 'rounded');
 
     monitoredStopVisits.forEach(visit => {
         const journey = visit.MonitoredVehicleJourney;
@@ -48,26 +47,24 @@ function displayBusTimes(monitoredStopVisits) {
         const expectedArrival = journey.MonitoredCall.ExpectedArrivalTime;
 
         const arrivalTimeDate = new Date(expectedArrival);
-        const currentTime = new Date();
-        const timeDifference = arrivalTimeDate.getTime() - currentTime.getTime();
-        const timeFromNow = Math.floor(timeDifference / 60000); // Convert to minutes
+        const timeFromNow = Math.round((arrivalTimeDate - new Date()) / 60000); // Convert to minutes
         const displayTimeFromNow = timeFromNow < 0 ? "Arrived" : `${timeFromNow} min`;
 
         const timeElement = document.createElement('div');
-        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'md:flex-row', 'justify-between', 'items-center', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-4', 'w-full');
+        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'sm:flex-row', 'items-center', 'justify-center', 'sm:justify-between', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-6', 'w-full');
         timeElement.innerHTML = `
-            <div class="line text-2xl mb-2 md:mb-0 flex-1 md:flex-none md:w-1/4">
+            <div class="line text-3xl mb-2 sm:mb-0" style="min-width: 80px;">
                 <span class="font-bold">${lineRef}</span>
             </div>
-            <div class="details flex-1 flex flex-col md:flex-row md:items-center">
-                <div class="destination text-lg mb-2 md:mb-0 md:mr-4">
+            <div class="details flex-grow flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center">
+                <div class="destination text-md mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;">
                     <span>${destination}</span>
                 </div>
-                <div class="arrival-time text-lg mb-2 md:mb-0">
+                <div class="arrival-time text-xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 120px;">
                     <span>${arrivalTimeDate.toLocaleTimeString()}</span>
                 </div>
             </div>
-            <div class="time-from-now text-xl flex-1 md:flex-none md:w-1/4">
+            <div class="time-from-now text-xl md:text-lg mb-2 sm:mb-0" style="min-width: 80px;">
                 <span class="font-bold">${displayTimeFromNow}</span>
             </div>
         `;
