@@ -3,25 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTFO!</title>
-    <link rel="icon" type="image/x-icon" href="BUS.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="Bus180.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="Bus152.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="Bus 120.png">
-    <meta name="apple-mobile-web-app-title" content="Bus Times">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Bus Times Display</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="path/to/your/DotMatrix.css">
+    <style>
+        @font-face {
+            font-family: 'MyCustomFont';
+            src: url('/DOTMATRIX.woff2') format('woff2');
+            src: url('/DOTMBold.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            }
+
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'DotMatrix', monospace;
+        }
+        .container {
+            text-align: center;
+        }
+        .bus-time-entry {
+            background-color: #000;
+            border: 1px solid #0F0;
+            color: #0F0;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .destination, .time-from-now {
+            color: #FFA500;
+        }
+        .button {
+            border: 1px solid #0F0;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: #0F0;
+            background-color: transparent;
+            font-size: 1.25rem;
+            min-width: 100px;
+            margin: 0 0.5rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .button.selected {
+            background-color: #0F0;
+            color: #000;
+            border-color: #0F0;
+        }
+        @media (min-width: 640px) {
+            .destination {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
 </head>
-<body class="flex justify-center items-center min-h-screen bg-gray-100">
-    <div class="container mx-auto p-4 text-center">
+<body class="bg-black text-green-500">
+    <div class="container">
         <div class="mb-4">
-            <button id="bus19" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 text-xl">19</button>
-            <button id="bus48" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xl">48</button>
+            <button id="bus19" class="button">19</button>
+            <button id="bus48" class="button">48</button>
         </div>
-        <div id="busTimes" class="max-w-lg mx-auto flex flex-col items-center gap-4 p-4 bg-white shadow rounded">
+        <div id="busTimes" class="max-w-lg mx-auto">
             <!-- Bus times will be displayed here -->
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
