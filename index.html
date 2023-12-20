@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Times Display</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="path/to/your/DotMatrix.css">
     <style>
-        @font-face {
+          @font-face {
             font-family: 'MyCustomFont';
-            src: url('/DOTMATRIX.woff2') format('woff');
-            src: url('/DOTMBold.woff2') format('woff');
+            src: url('/DOTMATRIX.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
-            }
-
-
+          }
+          @font-face {
+            font-family: 'MyCustomFont';
+            src: url('/DOTMBold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+          }
         body, html {
             height: 100%;
             margin: 0;
@@ -37,7 +39,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
+            width: 100%; /* Full width on mobile */
+        }
+        @media (min-width: 640px) {
+            .bus-time-entry {
+                width: auto; /* Auto width on larger screens */
+            }
         }
         .destination, .time-from-now {
             color: #FFA500;
@@ -58,9 +65,15 @@
             color: #000;
             border-color: #0F0;
         }
-        @media (min-width: 640px) {
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+            .button {
+                font-size: 1rem; /* Smaller font size for buttons on mobile */
+            }
             .destination {
-                font-size: 1.25rem;
+                font-size: 1.25rem; /* Adjust if needed for readability */
             }
         }
     </style>
@@ -71,7 +84,7 @@
             <button id="bus19" class="button">19</button>
             <button id="bus48" class="button">48</button>
         </div>
-        <div id="busTimes" class="max-w-lg mx-auto">
+        <div id="busTimes" class="w-full sm:max-w-lg mx-auto">
             <!-- Bus times will be displayed here -->
         </div>
     </div>

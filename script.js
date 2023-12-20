@@ -61,14 +61,14 @@ function displayBusTimes(monitoredStopVisits) {
                 <span class="font-bold">${lineRef}</span>
             </div>
             <div class="details flex-grow flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center">
-                <div class="destination text-3xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;">
+                <div class="destination text-3xl sm:text-5xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;">
                     <span>${destination}</span>
                 </div>
                 <div class="arrival-time text-xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 120px;">
                     <span>${arrivalTimeDate.toLocaleTimeString()}</span>
                 </div>
             </div>
-            <div class="time-from-now text-3xl md:text-lg mb-2 sm:mb-0" style="min-width: 80px;">
+            <div class="time-from-now text-3xl md:text-2xl mb-2 sm:mb-0" style="min-width: 80px;">
                 <span class="font-bold">${displayTimeFromNow}</span>
             </div>
         `;
