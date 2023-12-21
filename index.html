@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Times Display</title>
+    <title>GTFO!</title>
+    <link rel="icon" type="image/x-icon" href="BUS.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Bus180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="Bus152.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="Bus120.png">
+    <meta name="apple-mobile-web-app-title" content="Bus Times">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <style>
-          @font-face {
-            font-family: 'MyCustomFont';
-            src: url('/DOTMATRIX.woff2') format('woff2');
+        @font-face {
+            font-family: 'DotMatrix';
+            src: url('https://raw.githubusercontent.com/conceitedengineering/MUNI/blob/master/DOTMATRIX.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
-          }
-          @font-face {
-            font-family: 'MyCustomFont';
-            src: url('/DOTMBold.woff2') format('woff2');
-            font-weight: bold;
-            font-style: normal;
-          }
+        }
+
         body, html {
-            height: 100%;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'DotMatrix', monospace;
+            font-family: 'DotMatrix', sans-serif;
+            overflow: auto;
         }
+
         .container {
             text-align: center;
+            max-width: 100vw;
+            padding: 1rem;
         }
+
         .bus-time-entry {
             background-color: #000;
             border: 1px solid #0F0;
@@ -37,18 +42,29 @@
             margin-bottom: 1rem;
             padding: 2rem;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            width: 100%; /* Full width on mobile */
         }
+
+        .line, .details, .time-from-now {
+            margin-bottom: 0.5rem; /* Ample padding */
+            margin-top: 0.5rem; /* Ample padding */
+            margin-right: 0.5rem; /* Ample padding */
+            margin-left: 0.5rem; /* Ample padding */
+        }
+
         @media (min-width: 640px) {
             .bus-time-entry {
-                width: auto; /* Auto width on larger screens */
+                flex-direction: row;
+                justify-content: center;
+                padding: 5rem;
             }
         }
+
         .destination, .time-from-now {
             color: #FFA500;
         }
+
         .button {
             border: 1px solid #0F0;
             border-radius: 0.5rem;
@@ -60,20 +76,22 @@
             margin: 0 0.5rem;
             transition: background-color 0.3s, color 0.3s;
         }
+
         .button.selected {
             background-color: #0F0;
             color: #000;
             border-color: #0F0;
         }
+
         @media (max-width: 640px) {
-            .container {
-                padding: 1rem;
-            }
             .button {
-                font-size: 1rem; /* Smaller font size for buttons on mobile */
+                font-size: 1rem;
             }
             .destination {
-                font-size: 1.25rem; /* Adjust if needed for readability */
+                font-size: 3xl; /* Significantly larger font size for destination on mobile */
+            }
+            .details {
+                flex-direction: column; /* Stack details vertically on mobile */
             }
         }
     </style>

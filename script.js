@@ -50,28 +50,32 @@ function displayBusTimes(monitoredStopVisits) {
         const destination = journey.DestinationName;
         const expectedArrival = journey.MonitoredCall.ExpectedArrivalTime;
 
+        
+
         const arrivalTimeDate = new Date(expectedArrival);
         const timeFromNow = Math.round((arrivalTimeDate - new Date()) / 60000);
         const displayTimeFromNow = timeFromNow < 0 ? "Arrived" : `${timeFromNow} min`;
 
         const timeElement = document.createElement('div');
-        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'sm:flex-row', 'items-center', 'justify-center', 'sm:justify-between', 'bg-white', 'shadow', 'rounded', 'mb-4', 'p-6', 'w-full');
+        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'sm:flex-row', 'items-center', 'justify-center', 'sm:justify-between', 'bg-white', 'shadow', 'rounded', 'mb-6', 'p-10', 'w-full');
+        timeElement.style.padding = '2rem'; // This applies padding to all sides
+
         timeElement.innerHTML = `
-            <div class="line text-6xl mb-2 sm:mb-0" style="min-width: 80px;">
-                <span class="font-bold">${lineRef}</span>
+        <div class="line text-7xl mb-2 sm:mb-0" style="min-width: 80px;">
+            <span class="font-bold">${lineRef}</span>
+        </div>
+        <div class="details flex-grow flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center">
+            <div class="destination text-3xl sm:text-5xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;"> <!-- Updated text size -->
+                <span>${destination}</span>
             </div>
-            <div class="details flex-grow flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center">
-                <div class="destination text-3xl sm:text-5xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;">
-                    <span>${destination}</span>
-                </div>
-                <div class="arrival-time text-xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 120px;">
-                    <span>${arrivalTimeDate.toLocaleTimeString()}</span>
-                </div>
+            <div class="arrival-time text-xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 120px;">
+                <span>${arrivalTimeDate.toLocaleTimeString()}</span>
             </div>
-            <div class="time-from-now text-3xl md:text-2xl mb-2 sm:mb-0" style="min-width: 80px;">
-                <span class="font-bold">${displayTimeFromNow}</span>
-            </div>
-        `;
+        </div>
+        <div class="time-from-now text-4xl md:text-2xl mb-2 sm:mb-0" style="min-width: 80px;">
+            <span class="font-bold">${displayTimeFromNow}</span>
+        </div>
+    `;
         busTimesElement.appendChild(timeElement);
     });
 }
