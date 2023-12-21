@@ -54,10 +54,10 @@
         }
 
         .line, .details, .time-from-now {
-            margin-bottom: 0.5rem; /* Ample padding */
-            margin-top: 0.5rem; /* Ample padding */
-            margin-right: 0.5rem; /* Ample padding */
-            margin-left: 0.5rem; /* Ample padding */
+            margin-bottom: 0.2rem; /* Ample padding */
+            margin-top: 0.2rem; /* Ample padding */
+            margin-right: 2rem; /* Ample padding */
+            margin-left: 2rem; /* Ample padding */
         }
 
         @media (min-width: 640px) {
@@ -92,10 +92,22 @@
 
         @media (max-width: 640px) {
             .button {
-                font-size: 1rem;
+                font-size: 2rem;
             }
             .destination {
-                font-size: 3xl; /* Significantly larger font size for destination on mobile */
+                font-size: 3rem; /* Significantly larger font size for destination on mobile */
+            }
+            .details {
+                flex-direction: column; /* Stack details vertically on mobile */
+            }
+        }
+
+        @media (min-width: 640px) {
+            .button {
+                font-size: 2rem;
+            }
+            .destination {
+                font-size: 3rem; /* Significantly larger font size for destination on mobile */
             }
             .details {
                 flex-direction: column; /* Stack details vertically on mobile */

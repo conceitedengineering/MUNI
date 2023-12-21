@@ -57,22 +57,22 @@ function displayBusTimes(monitoredStopVisits) {
         const displayTimeFromNow = timeFromNow < 0 ? "Arrived" : `${timeFromNow} min`;
 
         const timeElement = document.createElement('div');
-        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'sm:flex-row', 'items-center', 'justify-center', 'sm:justify-between', 'bg-white', 'shadow', 'rounded', 'mb-6', 'p-10', 'w-full');
-        timeElement.style.padding = '2rem'; // This applies padding to all sides
+        timeElement.classList.add('bus-time-entry', 'flex', 'flex-col', 'sm:flex-row', 'items-center', 'justify-center', 'sm:justify-between', 'bg-white', 'shadow', 'rounded', 'mb-6', 'p-1', 'w-full');
+        timeElement.style.padding = '1.5rem'; // This applies padding to all sides
 
         timeElement.innerHTML = `
         <div class="line text-7xl mb-2 sm:mb-0" style="min-width: 80px;">
             <span class="font-bold">${lineRef}</span>
         </div>
         <div class="details flex-grow flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center">
-            <div class="destination text-3xl sm:text-5xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;"> <!-- Updated text size -->
+            <div class="destination text-5xl sm:text-5xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 150px;"> <!-- Updated text size -->
                 <span>${destination}</span>
             </div>
-            <div class="arrival-time text-xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 120px;">
+            <div class="arrival-time text-2xl mb-2 sm:mb-0 sm:mr-2" style="min-width: 120px;">
                 <span>${arrivalTimeDate.toLocaleTimeString()}</span>
             </div>
         </div>
-        <div class="time-from-now text-4xl md:text-2xl mb-2 sm:mb-0" style="min-width: 80px;">
+        <div class="time-from-now text-3xl md:text-2xl mb-2 sm:mb-0" style="min-width: 80px;">
             <span class="font-bold">${displayTimeFromNow}</span>
         </div>
     `;
