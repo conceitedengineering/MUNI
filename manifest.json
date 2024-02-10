@@ -1,0 +1,22 @@
+{
+    "short_name": "Bus Times",
+    "name": "City Bus Times Tracker",
+    "icons": [
+      {
+        "src": "/Bus192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/Bus512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/index.html?source=pwa",
+    "background_color": "#000000",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#0F0F0F"
+  }
+  
