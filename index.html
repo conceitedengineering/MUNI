@@ -63,6 +63,8 @@
 
         @media (min-width: 640px) {
             .bus-time-entry {
+                width: 35vw;
+                max-width: 500px;
                 flex-direction: row;
                 justify-content: center;
                 padding: 5rem;
@@ -114,19 +116,57 @@
                 flex-direction: column; /* Stack details vertically on mobile */
             }
         }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .button {
+            font-size: 1.25rem;
+            padding: 0.75rem;
+            min-width: 70px;
+        }
+
+        @media (max-width: 640px) {
+            .button-container {
+                gap: 0.5rem;
+            }
+
+            .button {
+                font-size: 1rem;
+                padding: 0.5rem;
+                min-width: 60px;
+            }
+        }
     </style>
 </head>
 <body class="bg-black text-green-500">
     <div class="container">
-        <div class="mb-4">
-            <button id="bus19" class="button">19</button>
-            <button id="bus48" class="button">48</button>
+        <div class="button-container mb-4">
+            <button id="bus19-outbound" class="button" data-stop-id="14128">
+                19
+                <span class="text-xs block">Outbound</span>
+            </button>
+            <button id="bus48-outbound" class="button" data-stop-id="13507">
+                48
+                <span class="text-xs block">Outbound</span>
+            </button>
+            <button id="bus19-inbound" class="button" data-stop-id="14437">
+                19
+                <span class="text-xs block">Inbound</span>
+            </button>
+            <button id="bus48-inbound" class="button" data-stop-id="13477">
+                48
+                <span class="text-xs block">Inbound</span>
+            </button>
         </div>
         <div id="busTimes" class="w-full sm:max-w-lg mx-auto">
             <!-- Bus times will be displayed here -->
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <script>
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {

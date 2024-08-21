@@ -1,50 +1,45 @@
-let bus19Data = [];
-let bus48Data = [];
+let busData = {};
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('bus19').addEventListener('click', () => {
-        displayBusTimes(bus19Data, 'bus19');
-        toggleButtonState('bus19');
-    });
-    document.getElementById('bus48').addEventListener('click', () => {
-        displayBusTimes(bus48Data, 'bus48');
-        toggleButtonState('bus48');
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.button');
+    const busTimesDiv = document.getElementById('busTimes');
 
-    // Fetch data for both buses on initial load
-    fetchBusTimes('14128', 'bus19');
-    fetchBusTimes('13507', 'bus48');
+    buttons.forEach(button => {
+        button.addEventListener('click', async () => {
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            
+            busTimesDiv.innerHTML = '<p>Loading...</p>';
+            
+            const stopId = button.getAttribute('data-stop-id');
+            const busId = button.id;
+            
+            try {
+                await fetchBusTimes(stopId, busId);
+                displayBusTimes(busData[busId], busId);
+            } catch (error) {
+                console.error('Error fetching bus info:', error);
+                busTimesDiv.innerHTML = '<p>Error loading bus times. Please try again.</p>';
+            }
+        });
+    });
 });
 
-function fetchBusTimes(stopId, busId) {
+async function fetchBusTimes(stopId, busId) {
     const API_ENDPOINT = `https://api.511.org/transit/StopMonitoring?api_key=8ed0464e-6f76-440e-8038-6f300c697f7c&agency=SF&stopCode=${stopId}`;
-    fetch(API_ENDPOINT)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const monitoredStopVisits = data.ServiceDelivery.StopMonitoringDelivery.MonitoredStopVisit;
-            if (busId === 'bus19') {
-                bus19Data = monitoredStopVisits;
-            } else {
-                bus48Data = monitoredStopVisits;
-            }
-            displayBusTimes([...bus19Data, ...bus48Data]);
-        })
-        .catch(error => {
-            console.error('Error fetching bus times:', error);
-            document.getElementById('busTimes').textContent = 'Error fetching bus times.';
-        });
-}
-
-function toggleButtonState(selectedButtonId) {
-    document.querySelectorAll('.button').forEach(button => {
-        button.classList.remove('selected');
-    });
-    document.getElementById(selectedButtonId).classList.add('selected');
+    
+    try {
+        const response = await fetch(API_ENDPOINT);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const monitoredStopVisits = data.ServiceDelivery.StopMonitoringDelivery.MonitoredStopVisit;
+        busData[busId] = monitoredStopVisits;
+    } catch (error) {
+        console.error('Error fetching bus times:', error);
+        throw error;
+    }
 }
 
 function displayBusTimes(monitoredStopVisits, selectedBusId) {
@@ -88,4 +83,11 @@ function displayBusTimes(monitoredStopVisits, selectedBusId) {
         `;
         busTimesElement.appendChild(timeElement);
     });
+}
+
+function toggleButtonState(selectedButtonId) {
+    document.querySelectorAll('.button').forEach(button => {
+        button.classList.remove('selected');
+    });
+    document.getElementById(selectedButtonId).classList.add('selected');
 }
