@@ -54,6 +54,31 @@
             align-items: center;
         }
 
+        .bus-time-entry.wide-short {
+            width: 100%;
+            max-width: 100%;
+            padding: 1rem;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .wide-short .special-side {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .wide-short .stacked-times {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.1;
+        }
+
         .line, .details, .time-from-now {
             margin-bottom: 0.2rem; /* Ample padding */
             margin-top: 0.2rem; /* Ample padding */
@@ -63,11 +88,11 @@
 
         @media (min-width: 640px) {
             .bus-time-entry {
-                width: 35vw;
-                max-width: 500px;
+                width: min(90vw, 720px);
+                max-width: 90vw;
                 flex-direction: row;
                 justify-content: center;
-                padding: 5rem;
+                padding: 3rem;
             }
         }
 
@@ -139,6 +164,12 @@
                 padding: 0.5rem;
                 min-width: 60px;
             }
+
+            .bus-time-entry.wide-short {
+                flex-direction: column;
+                gap: 0.75rem;
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -162,7 +193,7 @@
                 <span class="text-xs block">Inbound</span>
             </button>
         </div>
-        <div id="busTimes" class="w-full sm:max-w-lg mx-auto">
+        <div id="busTimes" class="w-full mx-auto">
             <!-- Bus times will be displayed here -->
         </div>
     </div>

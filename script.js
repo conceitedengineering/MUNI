@@ -15,8 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const busId = button.id;
             
             try {
-                await fetchBusTimes(stopId, busId);
-                displayBusTimes(busData[busId], busId);
+                let extraStops = null;
+                if (busId === 'bus48-inbound') {
+                    const [, specialStops] = await Promise.all([
+                        fetchBusTimes(stopId, busId),
+                        fetchStopVisits('15554')
+                    ]);
+                    extraStops = specialStops;
+                } else {
+                    await fetchBusTimes(stopId, busId);
+                }
+                displayBusTimes(busData[busId], busId, extraStops);
             } catch (error) {
                 console.error('Error fetching bus info:', error);
                 busTimesDiv.innerHTML = '<p>Error loading bus times. Please try again.</p>';
@@ -42,12 +51,78 @@ async function fetchBusTimes(stopId, busId) {
     }
 }
 
-function displayBusTimes(monitoredStopVisits, selectedBusId) {
+async function fetchStopVisits(stopId) {
+    const API_ENDPOINT = `https://api.511.org/transit/StopMonitoring?api_key=8ed0464e-6f76-440e-8038-6f300c697f7c&agency=SF&stopCode=${stopId}`;
+
+    try {
+        const response = await fetch(API_ENDPOINT);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.ServiceDelivery.StopMonitoringDelivery.MonitoredStopVisit;
+    } catch (error) {
+        console.error('Error fetching bus times:', error);
+        throw error;
+    }
+}
+
+function getNextTimesForLine(monitoredStopVisits, lineRef, limit = 2) {
+    if (!Array.isArray(monitoredStopVisits)) {
+        return [];
+    }
+
+    const now = new Date();
+    const times = monitoredStopVisits
+        .filter(visit => visit.MonitoredVehicleJourney.LineRef === lineRef)
+        .map(visit => {
+            const expectedArrival = visit.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
+            const arrivalTimeDate = new Date(expectedArrival);
+            return Math.round((arrivalTimeDate - now) / 60000);
+        })
+        .filter(minutes => minutes >= 0)
+        .sort((a, b) => a - b);
+
+    return times.slice(0, limit);
+}
+
+function createWideShortCard(monitoredStopVisits) {
+    const line14Times = getNextTimesForLine(monitoredStopVisits, '14');
+    const line49Times = getNextTimesForLine(monitoredStopVisits, '49');
+
+    const line14Text = line14Times.length > 0 ? line14Times.map(time => `<div>${time}</div>`).join('') : '';
+    const line49Text = line49Times.length > 0 ? line49Times.map(time => `<div>${time}</div>`).join('') : '';
+
+    const timeElement = document.createElement('div');
+    timeElement.classList.add('bus-time-entry', 'wide-short', 'w-full', 'mb-6');
+
+    timeElement.innerHTML = `
+        <div class="special-side">
+            <span class="line text-6xl font-bold">14</span>
+            <div class="time-from-now text-4xl stacked-times">${line14Text}</div>
+        </div>
+        <div class="special-side">
+            <span class="line text-6xl font-bold">49</span>
+            <div class="time-from-now text-4xl stacked-times">${line49Text}</div>
+        </div>
+    `;
+
+    return timeElement;
+}
+
+function displayBusTimes(monitoredStopVisits, selectedBusId, extraStops) {
     const busTimesElement = document.getElementById('busTimes');
     busTimesElement.innerHTML = '';
 
+    if (selectedBusId === 'bus48-inbound' && Array.isArray(extraStops)) {
+        const wideShortCard = createWideShortCard(extraStops);
+        busTimesElement.appendChild(wideShortCard);
+    }
+
     if (!Array.isArray(monitoredStopVisits) || monitoredStopVisits.length === 0) {
-        busTimesElement.textContent = 'No bus times available.';
+        const emptyMessage = document.createElement('div');
+        emptyMessage.textContent = 'No bus times available.';
+        busTimesElement.appendChild(emptyMessage);
         return;
     }
 
